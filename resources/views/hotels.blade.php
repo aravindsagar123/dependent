@@ -23,32 +23,34 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
-$(document).ready(function(){
-    $("#hotels").change(function(){
-      var hotel_id =$(this).val();
-      console.log(hotel_id);
-      $.ajax({
-    url: '/fetchrooms/' + hotel_id,
-    type: 'POST',
-    dataType: 'json',
-    success: function (response) {
-        if (response['rooms'].length > 0) {
-            $.each(response['rooms'], function (key, value) {
-                $("#rooms").append("<option id='" + value['id'] + "'>" + value['name'] + "</option>");
-            });
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
-    },
-    error: function (data) {
-        console.log('Error:', data);
-    }
-});
     });
-});
+
+    $(document).ready(function () {
+        $("#hotels").change(function () {
+            var hotel_id = $(this).val();
+            $.ajax({
+                url: '/fetchrooms/' + hotel_id,
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    if (response['rooms'].length > 0) {
+                        $("#rooms").empty(); // Clear the existing options before adding new ones
+                        $.each(response['rooms'], function (key, value) {
+                            $("#rooms").append("<option value='" + value['id'] + "'>" + value['name'] + "</option>");
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Handle errors if needed
+                }
+            });
+        });
+    });
 </script>
+
 </body>
 </html>

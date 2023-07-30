@@ -13,9 +13,9 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::get('/hotel',[UserController::class,'hotel'])->name('hotel');
+Route::get('/',[UserController::class,'hotel'])->name('hotel');
 Route::post('/fetchrooms/{hotel_id}', [UserController::class, 'fetchrooms']);
